@@ -1,17 +1,19 @@
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.allopen")
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.allopen") version "2.1.0"
 
-    id("io.gatling.gradle") version "3.9.5.6"
+    // The following line allows to load io.gatling.gradle plugin and directly apply it
+    id("io.gatling.gradle") version "3.13.1.2"
 }
 
 gatling {
-    logLevel = "ERROR"
-    logHttp = io.gatling.gradle.LogHttp.FAILURES
+    enterprise.closureOf<Any> {
+        // Enterprise Cloud (https://cloud.gatling.io/) configuration reference: https://docs.gatling.io/reference/integrations/build-tools/gradle-plugin/
+    }
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(19))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 repositories {
