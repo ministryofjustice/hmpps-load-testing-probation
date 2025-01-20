@@ -5,7 +5,7 @@ import io.gatling.javaapi.core.ScenarioBuilder
 import io.gatling.javaapi.http.HttpDsl
 import uk.gov.justice.digital.hmpps.helper.HttpRequestHelper
 import uk.gov.justice.digital.hmpps.team.cas.jdbc.CruDashboardFeeder
-import java.util.*
+import java.util.UUID
 
 class BookingMadeScenarioService(
     private val cruDashboardFeeder: CruDashboardFeeder = CruDashboardFeeder(),
