@@ -22,4 +22,14 @@ class CasSelectorHelper: SelectorHelper() {
             .transformWithSession { valuesFound, _ ->
                 valuesFound[0]
             }.notNull().saveAs(sessionKey)
+
+
+    fun getCalendarLinkHrefValueAndStoreInSession(sessionKey: String): Final =
+        CoreDsl.css(".calendar__link", "href")
+            .findAll()
+            .transformWithSession { valuesFound, _ ->
+                valuesFound
+                    .filter {  it.contains("/occupancy/day/") }
+                    .randomOrNull()
+            }.notNull().saveAs(sessionKey)
 }

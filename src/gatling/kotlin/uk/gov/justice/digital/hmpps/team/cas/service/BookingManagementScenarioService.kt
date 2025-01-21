@@ -5,7 +5,6 @@ import io.gatling.javaapi.core.ScenarioBuilder
 import io.gatling.javaapi.http.HttpDsl
 import uk.gov.justice.digital.hmpps.helper.HttpRequestHelper
 import uk.gov.justice.digital.hmpps.team.cas.jdbc.SpaceBookingsFeeder
-import java.util.UUID
 
 class BookingManagementScenarioService(
     private val spaceBookingsFeeder: SpaceBookingsFeeder = SpaceBookingsFeeder(),
@@ -13,7 +12,7 @@ class BookingManagementScenarioService(
     private val pageOrchestrationService: BookingManagementPageOrchestrationService = BookingManagementPageOrchestrationService()
 ) {
 
-    fun buildBookingManagementScenario(
+    fun buildScenario(
         scenarioName: String,
         premiseQCode: String,
         pauseOnViewPremisePage: Long,
