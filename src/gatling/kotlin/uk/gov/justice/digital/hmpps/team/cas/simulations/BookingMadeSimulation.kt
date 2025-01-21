@@ -19,7 +19,7 @@ class BookingMadeSimulation(bookingMadeScenarioService: BookingMadeScenarioServi
         val fastBookingMadeScenario =
             bookingMadeScenarioService.buildBookingMadeScenario(
                 scenarioName = "Booking Made Scenario - Fast users",
-                cruDashboardNotMatchedStatus,
+                status = cruDashboardNotMatchedStatus,
                 cruManagementAreaId,
                 fastBookingMadePauseOnCruDashboardPage,
                 fastBookingMadePauseOnPlacementRequestPage,
@@ -32,7 +32,7 @@ class BookingMadeSimulation(bookingMadeScenarioService: BookingMadeScenarioServi
         val averageSpeedBookingMadeScenario =
             bookingMadeScenarioService.buildBookingMadeScenario(
                 scenarioName = "Booking Made Scenario - Average speed users",
-                cruDashboardNotMatchedStatus,
+                status = cruDashboardNotMatchedStatus,
                 cruManagementAreaId,
                 averageSpeedBookingMadePauseOnCruDashboardPage,
                 averageSpeedBookingMadePauseOnPlacementRequestPage,
@@ -45,7 +45,7 @@ class BookingMadeSimulation(bookingMadeScenarioService: BookingMadeScenarioServi
         val slowerBookingMadeScenario =
             bookingMadeScenarioService.buildBookingMadeScenario(
                 scenarioName = "Booking Made Scenario - Slower users",
-                cruDashboardNotMatchedStatus,
+                status = cruDashboardNotMatchedStatus,
                 cruManagementAreaId,
                 slowerBookingMadePauseOnCruDashboardPage,
                 slowerBookingMadePauseOnPlacementRequestPage,
