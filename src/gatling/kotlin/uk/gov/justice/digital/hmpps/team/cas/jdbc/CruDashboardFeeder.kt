@@ -3,7 +3,7 @@ package uk.gov.justice.digital.hmpps.team.cas.jdbc
 import io.gatling.javaapi.core.FeederBuilder
 import io.gatling.javaapi.jdbc.JdbcDsl
 import uk.gov.justice.digital.hmpps.config.DbConfig
-import uk.gov.justice.digital.hmpps.team.cas.model.CasPlacementRequestSession
+import uk.gov.justice.digital.hmpps.team.cas.model.BookingMadeSimulationSession
 import java.util.UUID
 
 class CruDashboardFeeder(
@@ -11,7 +11,7 @@ class CruDashboardFeeder(
 ) {
     fun getJdbcFeeder(status: String, cruManagementAreaId: UUID): FeederBuilder<Any> {
         val feederQuery = """
-            SELECT pq.${CasPlacementRequestSession.PLACEMENT_REQUEST_ID.sessionKey}
+            SELECT pq.id AS ${BookingMadeSimulationSession.PLACEMENT_REQUEST_ID.sessionKey}
             from placement_requests pq
             left join approved_premises_applications apa on apa.id = pq.application_id
             where pq.reallocated_at IS NULL
