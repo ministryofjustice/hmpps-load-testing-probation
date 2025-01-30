@@ -13,7 +13,7 @@ class BookingMadeScenarioService(
     private val pageOrchestrationService: BookingMadePageOrchestrationService = BookingMadePageOrchestrationService()
 ) {
 
-    fun buildBookingMadeScenario(
+    fun buildScenario(
         scenarioName: String,
         status: String,
         cruManagementAreaId: UUID,

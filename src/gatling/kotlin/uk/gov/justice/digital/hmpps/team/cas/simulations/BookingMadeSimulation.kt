@@ -7,20 +7,14 @@ import uk.gov.justice.digital.hmpps.team.cas.service.BookingMadeScenarioService
 import kotlin.time.*
 import kotlin.time.Duration.Companion.minutes
 
-const val dev_profile: String = "dev"
-const val test_profile: String = "test"
 
 class BookingMadeSimulation(bookingMadeScenarioService: BookingMadeScenarioService = BookingMadeScenarioService()): BaseSimulationFrontEndRoutes() {
     init {
-        val cruManagementAreaId = if (System.getProperty("profile") == dev_profile || System.getProperty("profile") == test_profile) {
-            apAreaIdForNorthEast
-        } else apAreaIdForSouthWestAndSouthCentral
-
         val fastBookingMadeScenario =
-            bookingMadeScenarioService.buildBookingMadeScenario(
+            bookingMadeScenarioService.buildScenario(
                 scenarioName = "Booking Made Scenario - Fast users",
                 status = cruDashboardNotMatchedStatus,
-                cruManagementAreaId,
+                cruManagementAreaId = cruManagementAreaIdForNorthEast,
                 fastBookingMadePauseOnCruDashboardPage,
                 fastBookingMadePauseOnPlacementRequestPage,
                 fastBookingMadePauseOnFindASpacePage,
@@ -30,10 +24,10 @@ class BookingMadeSimulation(bookingMadeScenarioService: BookingMadeScenarioServi
             )
 
         val averageSpeedBookingMadeScenario =
-            bookingMadeScenarioService.buildBookingMadeScenario(
+            bookingMadeScenarioService.buildScenario(
                 scenarioName = "Booking Made Scenario - Average speed users",
                 status = cruDashboardNotMatchedStatus,
-                cruManagementAreaId,
+                cruManagementAreaId = cruManagementAreaIdForNorthEast,
                 averageSpeedBookingMadePauseOnCruDashboardPage,
                 averageSpeedBookingMadePauseOnPlacementRequestPage,
                 averageSpeedBookingMadePauseOnFindASpacePage,
@@ -43,10 +37,10 @@ class BookingMadeSimulation(bookingMadeScenarioService: BookingMadeScenarioServi
             )
 
         val slowerBookingMadeScenario =
-            bookingMadeScenarioService.buildBookingMadeScenario(
+            bookingMadeScenarioService.buildScenario(
                 scenarioName = "Booking Made Scenario - Slower users",
                 status = cruDashboardNotMatchedStatus,
-                cruManagementAreaId,
+                cruManagementAreaId = cruManagementAreaIdForNorthEast,
                 slowerBookingMadePauseOnCruDashboardPage,
                 slowerBookingMadePauseOnPlacementRequestPage,
                 slowerBookingMadePauseOnFindASpacePage,
@@ -56,15 +50,15 @@ class BookingMadeSimulation(bookingMadeScenarioService: BookingMadeScenarioServi
             )
         setUp(
             fastBookingMadeScenario.injectClosed(
-                constantConcurrentUsers(noOfFastUsers).during(20.minutes.toJavaDuration())
+                constantConcurrentUsers(noOfFastUsers).during(2.minutes.toJavaDuration())
             ),
             averageSpeedBookingMadeScenario.injectClosed(
-                constantConcurrentUsers(noOfAverageSpeedUsers).during(20.minutes.toJavaDuration())
+                constantConcurrentUsers(noOfAverageSpeedUsers).during(2.minutes.toJavaDuration())
             ),
             slowerBookingMadeScenario.injectClosed(
-                constantConcurrentUsers(noOfSlowerUsers).during(20.minutes.toJavaDuration())
+                constantConcurrentUsers(noOfSlowerUsers).during(2.minutes.toJavaDuration())
             ),
         ).protocols(httpProtocol)
-            .maxDuration(20.minutes.toJavaDuration())
+            .maxDuration(2.minutes.toJavaDuration())
     }
 }

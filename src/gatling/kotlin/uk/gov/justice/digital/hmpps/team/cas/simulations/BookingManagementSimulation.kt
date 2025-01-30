@@ -9,7 +9,7 @@ import kotlin.time.Duration.Companion.minutes
 
 class BookingManagementSimulation(bookingMadeScenarioService: BookingManagementScenarioService = BookingManagementScenarioService()): BaseSimulationFrontEndRoutes() {
     init {
-        val slowBookingManagementScenario = bookingMadeScenarioService.buildBookingManagementScenario(
+        val slowBookingManagementScenario = bookingMadeScenarioService.buildScenario(
             scenarioName = "Booking Management Scenario - Slow users",
             premiseQCode = swscMenPremise1QCode,
             pauseOnViewPremisePage = slowBookingManagementPauseOnViewPremisePage,
@@ -23,7 +23,7 @@ class BookingManagementSimulation(bookingMadeScenarioService: BookingManagementS
             pauseOnRecordDepartureNotesPage = slowBookingManagementPauseOnRecordDepartureNotesPage,
             pauseAfterSubmitRecordDepartureNotes = slowBookingManagementPauseAfterSubmitRecordDepartureNotes
         )
-        val averageSpeedBookingManagementScenario = bookingMadeScenarioService.buildBookingManagementScenario(
+        val averageSpeedBookingManagementScenario = bookingMadeScenarioService.buildScenario(
             scenarioName = "Booking Management Scenario - Average speed users",
             premiseQCode = swscMenPremise1QCode,
             pauseOnViewPremisePage = averageSpeedBookingManagementPauseOnViewPremisePage,
@@ -37,7 +37,7 @@ class BookingManagementSimulation(bookingMadeScenarioService: BookingManagementS
             pauseOnRecordDepartureNotesPage = averageSpeedBookingManagementPauseOnRecordDepartureNotesPage,
             pauseAfterSubmitRecordDepartureNotes = averageSpeedBookingManagementPauseAfterSubmitRecordDepartureNotes
         )
-        val fastBookingManagementScenario = bookingMadeScenarioService.buildBookingManagementScenario(
+        val fastBookingManagementScenario = bookingMadeScenarioService.buildScenario(
             scenarioName = "Booking Management Scenario - Fast users",
             premiseQCode = swscMenPremise1QCode,
             pauseOnViewPremisePage = fastBookingManagementPauseOnViewPremisePage,

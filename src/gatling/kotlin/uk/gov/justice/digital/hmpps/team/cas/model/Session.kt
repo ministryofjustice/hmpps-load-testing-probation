@@ -11,3 +11,9 @@ enum class BookingManagementSimulationSession(val sessionKey: String) {
     PREMISE_ID("premiseid"),
     RECORD_ARRIVAL_CSRF_TOKEN_VALUE("recordArrivalCsrfTokenValue"),
 }
+
+enum class PremiseManagementSimulationSession(val sessionKey: String) {
+    PREMISE_ID("premiseid"),
+    PREMISE_NAME("premisename"),
+    OCCUPANCY_VIEW_FOR_DAY_LINK_HREF_VALUE("occupancyViewForDayLinkHrefValue"),
+}
