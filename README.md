@@ -1,20 +1,52 @@
 # hmpps-probation-load-testing
 
-## Prep for running load test - Connect to DB and get auth cookie:
+## Prep for running load test
 To kick off the load tests you will need to do the following:
 
-1. Port forward to [Access the DEV RDS Database](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/other-topics/rds-external-access.html#accessing-your-rds-database)
-2. Go to `Approved Premises` web application and grab the `connection.sid` cookie's value: 
-  * Go here in Google Chrome: https://approved-premises-test.hmpps.service.justice.gov.uk
-  * Log in
-  * Right-click browser > Inspect
-  * Go to `Application` tab > `Storage` in left nav > Expand `Cookies`
-  * Find the `connect.sid` cookie in the list and copy its' value from the `Value` column
-  * Copy the value for later step
+1. Port forward to [Access the TEST RDS Database](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/other-topics/rds-external-access.html#accessing-your-rds-database)
+2. Copy the `connection.sid` Application cookie from your web browser 
+* Login to your web application
+* Right-click browser > Inspect
+* Go to `Application` tab > `Storage` in left nav > Expand `Cookies`
+* Find the `connect.sid` cookie in the list and copy its' value from the `Value` column
+* Copy the value for later step
 
-## Run load tests in Terminal:
+## Running load tests
 1. Change directory in a terminal and navigate to this repo's root folder
-2. Run this command (and swap out variables below for real values - see `Prep for running load test` for how to get the value for `auth_cookie_value` and the rest our k8s secrets):
+2. Run a simulation of your choice:
+```bash
+./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.*.*Simulation
 ```
-./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.cas.simulations.BookingMadeSimulation -Dprofile=test -Dprotocol=https -Ddomain=approved-premises-test.hmpps.service.justice.gov.uk -Ddb_port=5432 -Ddb_name=<db_name_value> -Ddb_username=<db_username_value> -Ddb_password=<db_password_value> -DconnectSidCookieValue=<auth_cookie_value>
+3. You may need to include extra env vars in the command (for secrets)
+
+## Teams
+* There is a team package included in the repo: `uk.gov.justice.digital.hmpps.team`
+* If you are contributing to this for the first time, add your team package in there  
+* Have a look at the code in the pre-existing teams packages where you will see (hopefully still!) a consistent way of doing things which reuses code from other packages (at the same level as the `teams` package)
+
+### CAS team
+For a full understanding of what was done here please read the [CAS1: Find & Book Load Testing](https://dsdmoj.atlassian.net/wiki/spaces/AP/pages/5442600996/CAS1+Find+Book+Load+Testing) wiki.
+* Team package: `uk.gov.justice.digital.hmpps.team.cas`
+* Web app to login into: https://approved-premises-test.hmpps.service.justice.gov.uk
+* Simulations:
+1. BookingManagementSimulation:
+```bash
+./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.cas.simulations.BookingManagementSimulation -Dprotocol=https -Ddomain=approved-premises-test.hmpps.service.justice.gov.uk -Ddb_port=5432 -Ddb_name=<secret> -Ddb_username=<secret> -Ddb_password=<secret> -DconnectSidCookieValue=<copied_in_prep_section>
 ```
+2. ApplyJourneySimulation:
+```bash
+./gradlew gatlingRun-uk.gov.justice.digital.hmpps.team.cas.simulations.ApplyJourneySimulation -Dprofile=dev -Dprotocol=https -Ddomain=approved-premises-api-dev.hmpps.service.justice.gov.uk -Ddb_port=5432 -Ddb_name=<secret> -Ddb_username=<secret> -Ddb_password=<secret>. -DauthBaseUrl=https://sign-in-dev.hmpps.service.justice.gov.uk
+```
+3. BookingMadeSimulation:
+```bash
+./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.cas.simulations.BookingMadeSimulation -Dprotocol=https -Ddomain=approved-premises-test.hmpps.service.justice.gov.uk -Ddb_port=5432 -Ddb_name=<secret> -Ddb_username=<secret> -Ddb_password=<secret> -DconnectSidCookieValue=<copied_in_prep_section>
+```
+4. PremiseManagementSimulation:
+```bash
+./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.cas.simulations.PremiseManagementSimulation -Dprotocol=https -Ddomain=approved-premises-test.hmpps.service.justice.gov.uk -Ddb_port=5432 -Ddb_name=<secret> -Ddb_username=<secret> -Ddb_password=<secret> -DconnectSidCookieValue=<copied_in_prep_section>
+```
+* In the above `gradle` commands, the `DconnectSidCookieValue` env vars needs to be set to the `connection.sid` value copied during the `Prep for running load test` section
+
+#### FYIs
+* all simulations hit FE routes against the web application apart from `ApplyJourneySimulation`. `ApplyJourneySimulation` is an example that hits BE endpoints direct (this is hanging around from the spike but we left it in as an example encase helpful to other contributors)
+* the `BookingManagementSimulation` is probably the gold standard example as it has a combination of `GET` routes and `POST` routes (for submitting forms throughout the simulation). See what we did [here](https://dsdmoj.atlassian.net/wiki/spaces/AP/pages/5501583503/Booking+Management+Simulation)

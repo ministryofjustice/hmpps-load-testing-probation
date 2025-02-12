@@ -14,25 +14,29 @@ class PremiseManagementScenarioService(
 
     fun buildScenario(
         scenarioName: String,
-        pauseOnViewPremisePage: Long,
-        pauseOnViewSpacesInPremisePage: Long,
-        pauseOnOccupancyViewForDayPage: Long
+        pauseBeforeStart: Pair<Long, Long>,
+        pauseOnViewPremisePage: Pair<Long, Long>,
+        pauseOnViewSpacesInPremisePage: Pair<Long, Long>,
+        pauseOnOccupancyViewForDayPage: Pair<Long, Long>,
     ): ScenarioBuilder {
         val premiseManagementChainBuilder = CoreDsl.feed(premisesFeeder.getJdbcFeederForSouthWestSouthCentralPremises())
             .exec(HttpDsl.addCookie(httpRequestHelper.connectSidAuthCookie!!))
+            .pause(pauseBeforeStart.first, pauseBeforeStart.second)
             .exec(
                 pageOrchestrationService.hitViewPremisePageAndDoChecks()
             )
-            .pause(pauseOnViewPremisePage)
+            .exitHereIfFailed()
+            .pause(pauseOnViewPremisePage.first, pauseOnViewPremisePage.second)
             .exec(
                 pageOrchestrationService.hitViewSpacesInPremisePageAndDoChecks()
             )
-            .pause(pauseOnViewSpacesInPremisePage)
+            .exitHereIfFailed()
+            .pause(pauseOnViewSpacesInPremisePage.first, pauseOnViewSpacesInPremisePage.second)
             .exec(
                 pageOrchestrationService.hitOccupancyViewForDayPageAndDoChecks()
             )
-            .pause(pauseOnOccupancyViewForDayPage)
             .exitHereIfFailed()
+            .pause(pauseOnOccupancyViewForDayPage.first, pauseOnOccupancyViewForDayPage.second)
 
         return CoreDsl.scenario(scenarioName)
             .exec(premiseManagementChainBuilder)
