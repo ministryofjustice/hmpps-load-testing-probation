@@ -17,7 +17,6 @@ class PremiseManagementPageOrchestrationService(
             }
             .check(
                 CoreDsl.css(".moj-identity-bar__title:contains('#{${PremiseManagementSimulationSession.PREMISE_NAME.sessionKey}}')").exists(),
-                CoreDsl.css(".moj-sub-navigation__link:contains('Upcoming')").exists()
             )
 
     fun hitViewSpacesInPremisePageAndDoChecks() =
@@ -37,7 +36,7 @@ class PremiseManagementPageOrchestrationService(
                 session.getString(PremiseManagementSimulationSession.OCCUPANCY_VIEW_FOR_DAY_LINK_HREF_VALUE.sessionKey)
             }
             .check(
-                CoreDsl.css(".govuk-heading-m:contains('People booked in')").exists()
+                CoreDsl.css(".govuk-pagination__link-title:contains('Previous day')").exists()
             )
 
 }

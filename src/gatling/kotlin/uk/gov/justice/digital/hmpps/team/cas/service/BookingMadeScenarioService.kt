@@ -17,40 +17,47 @@ class BookingMadeScenarioService(
         scenarioName: String,
         status: String,
         cruManagementAreaId: UUID,
-        pauseOnCruDashboardPage: Long,
-        pauseOnPlacementRequestPage: Long,
-        pauseOnFindASpacePage: Long,
-        pauseOnOccupancyViewPage: Long,
-        pauseOnConfirmBookingPage: Long,
-        pauseOnConfirmBookingSubmitPage: Long
+        pauseBeforeStart: Pair<Long, Long>,
+        pauseOnCruDashboardPage: Pair<Long, Long>,
+        pauseOnPlacementRequestPage: Pair<Long, Long>,
+        pauseOnFindASpacePage: Pair<Long, Long>,
+        pauseOnOccupancyViewPage: Pair<Long, Long>,
+        pauseOnConfirmBookingPage: Pair<Long, Long>,
+        pauseOnConfirmBookingSubmitPage: Pair<Long, Long>
     ): ScenarioBuilder {
         val bookingMadeChainBuilder = CoreDsl.feed(cruDashboardFeeder.getJdbcFeeder(status, cruManagementAreaId))
             .exec(HttpDsl.addCookie(httpRequestHelper.connectSidAuthCookie!!))
+            .pause(pauseBeforeStart.first, pauseBeforeStart.second)
             .exec(
                 pageOrchestrationService.hitCruDashboardPageAndDoChecks()
             )
-            .pause(pauseOnCruDashboardPage)
+            .exitHereIfFailed()
+            .pause(pauseOnCruDashboardPage.first, pauseOnCruDashboardPage.second)
             .exec(
                 pageOrchestrationService.hitPlacementRequestPageAndDoChecks()
             )
-            .pause(pauseOnPlacementRequestPage)
+            .exitHereIfFailed()
+            .pause(pauseOnPlacementRequestPage.first, pauseOnPlacementRequestPage.second)
             .exec(
                 pageOrchestrationService.hitFindASpacePageAndDoChecks()
             )
-            .pause(pauseOnFindASpacePage)
+            .exitHereIfFailed()
+            .pause(pauseOnFindASpacePage.first, pauseOnFindASpacePage.second)
             .exec(
                 pageOrchestrationService.hitOccupancyViewPageAndDoChecks()
             )
-            .pause(pauseOnOccupancyViewPage)
+            .exitHereIfFailed()
+            .pause(pauseOnOccupancyViewPage.first, pauseOnOccupancyViewPage.second)
             .exec(
                 pageOrchestrationService.hitConfirmBookingPageAndDoChecks()
             )
-            .pause(pauseOnConfirmBookingPage)
+            .exitHereIfFailed()
+            .pause(pauseOnConfirmBookingPage.first, pauseOnConfirmBookingPage.second)
             .exec(
                 pageOrchestrationService.submitConfirmBookingFormAndDoChecks()
             )
-            .pause(pauseOnConfirmBookingSubmitPage)
             .exitHereIfFailed()
+            .pause(pauseOnConfirmBookingSubmitPage.first, pauseOnConfirmBookingSubmitPage.second)
 
         return CoreDsl.scenario(scenarioName)
             .exec(bookingMadeChainBuilder)

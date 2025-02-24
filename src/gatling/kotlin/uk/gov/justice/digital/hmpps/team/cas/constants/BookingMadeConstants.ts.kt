@@ -2,32 +2,16 @@ package uk.gov.justice.digital.hmpps.team.cas.constants
 
 import java.util.UUID
 
-const val noOfFastUsers = 6
-const val noOfAverageSpeedUsers = 2
-const val noOfSlowerUsers = 2
+const val noOfBookingMadeUsers = 15
 
-const val fastBookingMadePauseOnCruDashboardPage = 4L
-const val fastBookingMadePauseOnPlacementRequestPage = 2L
-const val fastBookingMadePauseOnFindASpacePage = 4L
-const val fastBookingMadePauseOnOccupancyViewPage = 10L
-const val fastBookingMadePauseOnConfirmBookingPage = 3L
-const val fastBookingMadePauseOnConfirmBookingSubmitPage = 1L
-
-const val averageSpeedBookingMadePauseOnCruDashboardPage = 8L
-const val averageSpeedBookingMadePauseOnPlacementRequestPage = 4L
-const val averageSpeedBookingMadePauseOnFindASpacePage = 8L
-const val averageSpeedBookingMadePauseOnOccupancyViewPage = 20L
-const val averageSpeedBookingMadePauseOnConfirmBookingPage = 6L
-const val averageSpeedBookingMadePauseOnConfirmBookingSubmitPage = 1L
-
-const val slowerBookingMadePauseOnCruDashboardPage = 16L
-const val slowerBookingMadePauseOnPlacementRequestPage = 8L
-const val slowerBookingMadePauseOnFindASpacePage = 16L
-const val slowerBookingMadePauseOnOccupancyViewPage = 40L
-const val slowerBookingMadePauseOnConfirmBookingPage = 12L
-const val slowerBookingMadePauseOnConfirmBookingSubmitPage = 1L
+val bookingMadePauseBeforeStart = 0L to 2L
+val bookingMadePauseOnCruDashboardPage = 4L to 8L
+val bookingMadePauseOnPlacementRequestPage = 2L to 4L
+val bookingMadePauseOnFindASpacePage = 4L to 8L
+val bookingMadePauseOnOccupancyViewPage = 10L to 20L
+val bookingMadePauseOnConfirmBookingPage = 3L to 6L
+val bookingMadePauseOnConfirmBookingSubmitPage = 1L to 2L
 
 // values for JDBC feed where clause
 const val cruDashboardNotMatchedStatus = "notMatched"
 val cruManagementAreaIdForNorthEast: UUID = UUID.fromString("64ad8602-5130-41da-bb2b-1c287b88fd90")
-val cruManagementAreaIdForSouthWestSouthCentral: UUID = UUID.fromString("667cc74b-60f9-4848-822b-2e8f7712cdf1")

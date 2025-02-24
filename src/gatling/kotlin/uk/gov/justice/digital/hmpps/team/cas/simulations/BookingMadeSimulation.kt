@@ -10,54 +10,23 @@ import kotlin.time.Duration.Companion.minutes
 
 class BookingMadeSimulation(bookingMadeScenarioService: BookingMadeScenarioService = BookingMadeScenarioService()): BaseSimulationFrontEndRoutes() {
     init {
-        val fastBookingMadeScenario =
+        val bookingMadeScenario =
             bookingMadeScenarioService.buildScenario(
                 scenarioName = "Booking Made Scenario - Fast users",
                 status = cruDashboardNotMatchedStatus,
                 cruManagementAreaId = cruManagementAreaIdForNorthEast,
-                fastBookingMadePauseOnCruDashboardPage,
-                fastBookingMadePauseOnPlacementRequestPage,
-                fastBookingMadePauseOnFindASpacePage,
-                fastBookingMadePauseOnOccupancyViewPage,
-                fastBookingMadePauseOnConfirmBookingPage,
-                fastBookingMadePauseOnConfirmBookingSubmitPage
-            )
-
-        val averageSpeedBookingMadeScenario =
-            bookingMadeScenarioService.buildScenario(
-                scenarioName = "Booking Made Scenario - Average speed users",
-                status = cruDashboardNotMatchedStatus,
-                cruManagementAreaId = cruManagementAreaIdForNorthEast,
-                averageSpeedBookingMadePauseOnCruDashboardPage,
-                averageSpeedBookingMadePauseOnPlacementRequestPage,
-                averageSpeedBookingMadePauseOnFindASpacePage,
-                averageSpeedBookingMadePauseOnOccupancyViewPage,
-                averageSpeedBookingMadePauseOnConfirmBookingPage,
-                averageSpeedBookingMadePauseOnConfirmBookingSubmitPage
-            )
-
-        val slowerBookingMadeScenario =
-            bookingMadeScenarioService.buildScenario(
-                scenarioName = "Booking Made Scenario - Slower users",
-                status = cruDashboardNotMatchedStatus,
-                cruManagementAreaId = cruManagementAreaIdForNorthEast,
-                slowerBookingMadePauseOnCruDashboardPage,
-                slowerBookingMadePauseOnPlacementRequestPage,
-                slowerBookingMadePauseOnFindASpacePage,
-                slowerBookingMadePauseOnOccupancyViewPage,
-                slowerBookingMadePauseOnConfirmBookingPage,
-                slowerBookingMadePauseOnConfirmBookingSubmitPage
+                bookingMadePauseBeforeStart,
+                bookingMadePauseOnCruDashboardPage,
+                bookingMadePauseOnPlacementRequestPage,
+                bookingMadePauseOnFindASpacePage,
+                bookingMadePauseOnOccupancyViewPage,
+                bookingMadePauseOnConfirmBookingPage,
+                bookingMadePauseOnConfirmBookingSubmitPage
             )
         setUp(
-            fastBookingMadeScenario.injectClosed(
-                constantConcurrentUsers(noOfFastUsers).during(2.minutes.toJavaDuration())
-            ),
-            averageSpeedBookingMadeScenario.injectClosed(
-                constantConcurrentUsers(noOfAverageSpeedUsers).during(2.minutes.toJavaDuration())
-            ),
-            slowerBookingMadeScenario.injectClosed(
-                constantConcurrentUsers(noOfSlowerUsers).during(2.minutes.toJavaDuration())
-            ),
+            bookingMadeScenario.injectClosed(
+                constantConcurrentUsers(noOfBookingMadeUsers).during(2.minutes.toJavaDuration())
+            )
         ).protocols(httpProtocol)
             .maxDuration(2.minutes.toJavaDuration())
     }
