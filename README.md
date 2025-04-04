@@ -45,8 +45,16 @@ For a full understanding of what was done here please read the [CAS1: Find & Boo
 ```bash
 ./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.cas.simulations.PremiseManagementSimulation -Dprotocol=https -Ddomain=approved-premises-test.hmpps.service.justice.gov.uk -Ddb_port=5432 -Ddb_name=<secret> -Ddb_username=<secret> -Ddb_password=<secret> -DconnectSidCookieValue=<copied_in_prep_section>
 ```
+5. Cas2v2ApplyJourneySimulation:
+```bash
+./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.cas.simulations.cas2v2.Cas2v2ApplyJourneySimulation -Dprotocol=https -Ddomain=approved-premises-api-dev.hmpps.service.justice.gov.uk -DauthBaseUrl=https://sign-in-dev.hmpps.service.justice.gov.uk
+```
+
 * In the above `gradle` commands, the `DconnectSidCookieValue` env vars needs to be set to the `connection.sid` value copied during the `Prep for running load test` section
 
 #### FYIs
-* all simulations hit FE routes against the web application apart from `ApplyJourneySimulation`. `ApplyJourneySimulation` is an example that hits BE endpoints direct (this is hanging around from the spike but we left it in as an example encase helpful to other contributors)
+* all simulations hit FE routes against the web application apart from `ApplyJourneySimulation` and `Cas2v2ApplyJourneySimulation`. `ApplyJourneySimulation` is an example that hits BE endpoints direct (this is hanging around from the spike but we left it in as an example encase helpful to other contributors)
 * the `BookingManagementSimulation` is probably the gold standard example as it has a combination of `GET` routes and `POST` routes (for submitting forms throughout the simulation). See what we did [here](https://dsdmoj.atlassian.net/wiki/spaces/AP/pages/5501583503/Booking+Management+Simulation)
+* AuthorizationService provides the jwt on line 9 : 
+* val jwt = System.getProperty("jwt")
+* For simple usage you can also hardcode a jwt. 
