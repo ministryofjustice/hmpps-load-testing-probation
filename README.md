@@ -50,3 +50,4 @@ For a full understanding of what was done here please read the [CAS1: Find & Boo
 #### FYIs
 * all simulations hit FE routes against the web application apart from `ApplyJourneySimulation`. `ApplyJourneySimulation` is an example that hits BE endpoints direct (this is hanging around from the spike but we left it in as an example encase helpful to other contributors)
 * the `BookingManagementSimulation` is probably the gold standard example as it has a combination of `GET` routes and `POST` routes (for submitting forms throughout the simulation). See what we did [here](https://dsdmoj.atlassian.net/wiki/spaces/AP/pages/5501583503/Booking+Management+Simulation)
+* test line
