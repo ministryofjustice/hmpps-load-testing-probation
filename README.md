@@ -1,7 +1,7 @@
 # hmpps-probation-load-testing
 
 ## Prep for running load test
-To kick off the load tests you will need to do the following:
+To kick off the load tests you will need to do the following: testing
 
 1. Port forward to [Access the TEST RDS Database](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/other-topics/rds-external-access.html#accessing-your-rds-database)
 2. Copy the `connection.sid` Application cookie from your web browser 
