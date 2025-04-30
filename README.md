@@ -24,7 +24,7 @@ To kick off the load tests you will need to do the following:
 * If you are contributing to this for the first time, add your team package in there  
 * Have a look at the code in the pre-existing teams packages where you will see (hopefully still!) a consistent way of doing things which reuses code from other packages (at the same level as the `teams` package)
 
-### CAS team
+### Community Accommodation Services (CAS) team
 For a full understanding of what was done here please read the [CAS1: Find & Book Load Testing](https://dsdmoj.atlassian.net/wiki/spaces/AP/pages/5442600996/CAS1+Find+Book+Load+Testing) wiki.
 * Team package: `uk.gov.justice.digital.hmpps.team.cas`
 * Web app to login into: https://approved-premises-test.hmpps.service.justice.gov.uk
@@ -35,7 +35,7 @@ For a full understanding of what was done here please read the [CAS1: Find & Boo
 ```
 2. ApplyJourneySimulation:
 ```bash
-./gradlew gatlingRun-uk.gov.justice.digital.hmpps.team.cas.simulations.ApplyJourneySimulation -Dprofile=dev -Dprotocol=https -Ddomain=approved-premises-api-dev.hmpps.service.justice.gov.uk -Ddb_port=5432 -Ddb_name=<secret> -Ddb_username=<secret> -Ddb_password=<secret>. -DauthBaseUrl=https://sign-in-dev.hmpps.service.justice.gov.uk
+./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.cas.simulations.ApplyJourneySimulation -Dprotocol=https -Ddomain=approved-premises-api-dev.hmpps.service.justice.gov.uk -DauthBaseUrl=https://sign-in-dev.hmpps.service.justice.gov.uk
 ```
 3. BookingMadeSimulation:
 ```bash
@@ -58,3 +58,14 @@ For a full understanding of what was done here please read the [CAS1: Find & Boo
 * AuthorizationService provides the jwt on line 9 : 
 * val jwt = System.getProperty("jwt")
 * For simple usage you can also hardcode a jwt. 
+
+### Manage-a-workforce (MaW) team
+For a full understanding of what was done here please read the [MaW Load Testing](https://dsdmoj.atlassian.net/wiki/spaces/MaS/pages/4578477149/Load+Testing) wiki.
+* Team package: `uk.gov.justice.digital.hmpps.team.maw`
+* Web app to login into: https://workforce-management-dev.hmpps.service.justice.gov.uk
+* Simulations:
+1. AllocateCaseSimulation:
+   
+```bash
+./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.maw.simulations.AllocateCaseSimulation -Dprotocol=https -Ddomain=workforce-management-dev.hmpps.service.justice.gov.uk -Ddb_port=5432 -Ddb_name=<secret> -Ddb_username=<secret> -Ddb_password=<secret> -DconnectSidCookieValue=<copied_in_prep_section>
+```
