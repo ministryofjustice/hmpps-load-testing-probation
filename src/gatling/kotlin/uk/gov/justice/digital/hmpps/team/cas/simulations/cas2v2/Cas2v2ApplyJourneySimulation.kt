@@ -4,6 +4,7 @@ import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.constantUsersPerSec
 import io.gatling.javaapi.core.CoreDsl.scenario
 import jodd.util.MathUtil.randomInt
+import kotlin.time.Duration.Companion.minutes
 import uk.gov.justice.digital.hmpps.BaseSimulationBackEndApi
 import uk.gov.justice.digital.hmpps.team.cas.service.AuthorizationService
 import uk.gov.justice.digital.hmpps.team.cas.service.cas2v2.Cas2v2ApplyOrchestrationService
@@ -24,7 +25,7 @@ class Cas2v2ApplyJourneySimulation(
             .pause(5.seconds.toJavaDuration()),
     )
 
-    private val approvedPremisesApplyJourney = scenario("AP Apply journey")
+    private val approvedPremisesApplyJourney = scenario("CAS2 Bail Applications")
         .exec(
             authorizationService.authorizeUser(),
             createApplication,
@@ -34,10 +35,10 @@ class Cas2v2ApplyJourneySimulation(
     init {
         setUp(
             approvedPremisesApplyJourney.injectOpen(
-                constantUsersPerSec(200.0).during(5.seconds.toJavaDuration()).randomized()
+                constantUsersPerSec(20.0).during(5.minutes.toJavaDuration()).randomized()
             ),
         )
             .protocols(httpProtocol)
-            .maxDuration(5.seconds.toJavaDuration())
+            .maxDuration(10.minutes.toJavaDuration())
     }
 }

@@ -58,7 +58,7 @@ For a full understanding of what was done here please read the [CAS1: Find & Boo
 ```
 5. Cas2v2ApplyJourneySimulation:
 ```bash
-./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.cas.simulations.cas2v2.Cas2v2ApplyJourneySimulation -Dprotocol=https -Ddomain=approved-premises-api-dev.hmpps.service.justice.gov.uk -DauthBaseUrl=https://sign-in-dev.hmpps.service.justice.gov.uk
+./gradlew gatlingRun --simulation uk.gov.justice.digital.hmpps.team.cas.simulations.cas2v2.Cas2v2ApplyJourneySimulation -Dprotocol=https -Ddomain=approved-premises-api-dev.hmpps.service.justice.gov.uk -DauthBaseUrl=https://sign-in-dev.hmpps.service.justice.gov.uk -Djwt=GET_THIS_FROM_YOUR_LOCAL_API_LOGS 
 ```
 
 * In the above `gradle` commands, the `DconnectSidCookieValue` env vars needs to be set to the `connection.sid` value copied during the `Prep for running load test` section

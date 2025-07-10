@@ -20,7 +20,7 @@ class Cas2v2ApplyOrchestrationService {
 
     private val updateApplicationPayload = """
         {
-           "type":"CAS1",
+           "type":"CAS2V2",
            "data":{
               "basic-information":{
                  "is-exceptional-case":{
@@ -33,7 +33,7 @@ class Cas2v2ApplyOrchestrationService {
 
     fun createApplication() = CoreDsl.exec(
         HttpDsl.http("Create Application")
-            .post("/applications")
+            .post("/cas2v2/applications")
             .body(StringBody(createApplicationPayload))
             .check(
                 HttpDsl.status().`is`(201),
@@ -46,7 +46,7 @@ class Cas2v2ApplyOrchestrationService {
         HttpDsl.http("Update Application")
             .put { session ->
                 val applicationId = session.getString(sessionKeyForApplicationId)
-                "/applications/$applicationId"
+                "/cas2v2/applications/$applicationId"
             }
             .body(StringBody(updateApplicationPayload)),
     )
