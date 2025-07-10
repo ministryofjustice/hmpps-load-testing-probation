@@ -25,7 +25,7 @@ class Cas2v2ApplyJourneySimulation(
             .pause(5.seconds.toJavaDuration()),
     )
 
-    private val approvedPremisesApplyJourney = scenario("AP Apply journey")
+    private val approvedPremisesApplyJourney = scenario("CAS2 Bail Applications")
         .exec(
             authorizationService.authorizeUser(),
             createApplication,
